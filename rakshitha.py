@@ -123,3 +123,8 @@ test_df['pm10'] = test_df['pm2_5'] * 1.5
 
 test_df = test_df.dropna()
 
+predictions_actual = scaler_y.inverse_transform(y_pred)
+
+print("Predicted AQI:")
+print(predictions_actual)
+
