@@ -13,7 +13,7 @@ drive.mount('/content/drive')
 import pandas as pd
 
 df = pd.read_csv('/content/drive/MyDrive/air_quality_prediction/train_data.csv')
-test_df = pd.read_csv('/content/drive/MyDrive/air_quality_prediction/test_data.csv')
+test_df = pd.read_csv('/content/drive/MyDrive/air_quality_prediction/April_2026_Air_Quality_test_dataset.csv')
 
 import pandas as pd
 import numpy as np
@@ -103,13 +103,17 @@ mae = mean_absolute_error(y_test_actual, y_pred_actual)
 print("RMSE:", rmse)
 print("MAE:", mae)
 
-plt.figure(figsize=(10,5))
-plt.plot(y_test_actual, label="Actual AQI")
-plt.plot(y_pred_actual, label="Predicted AQI")
-plt.legend()
-plt.title("Air Quality Prediction")
-plt.show()
+results_df = pd.DataFrame({
+    'Actual AQI' : y_test_actual.flatten(),
+    'Predicted AQI' : y_pred_actual.flatten()
+})
 
+print(results_df.head(20))
+results_df = pd.DataFrame({
+    'Actual AQI' : y_test_actual.flatten(),
+    'Predicted AQI' : y_pred_actual.flatten()
+})
+    
 test_df['date'] = pd.to_datetime(test_df['date'], dayfirst=True)
 test_df = test_df.ffill()
 
@@ -123,8 +127,4 @@ test_df['pm10'] = test_df['pm2_5'] * 1.5
 
 test_df = test_df.dropna()
 
-predictions_actual = scaler_y.inverse_transform(y_pred)
-
-print("Predicted AQI:")
-print(predictions_actual)
 
